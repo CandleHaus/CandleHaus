@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  name          String?
+  passwordHash  String?
+  image         String?
+  role          Role           @default(CUSTOMER)
+  createdAt     DateTime       @default(now())
+  orders        Order[]
+  reviews       Review[]
+  wishlist      WishlistItem[]
+  addresses     Address[]
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Product {
+  id            String         @id @default(cuid())
+  name          String
+  slug          String         @unique
+  description   String
+  price         Float
+  comparePrice  Float?
+  images        String[]
+  scentFamily   String
+  topNotes      String[]
+  heartNotes    String[]
+  baseNotes     String[]
+  burnTime      Int
+  weightOz      Float
+  waxType       String
+  wickType      String
+  size          String
+  stock         Int            @default(0)
+  featured      Boolean        @default(false)
+  active        Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  orderItems    OrderItem[]
+  reviews       Review[]
+  wishlistItems WishlistItem[]
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?
+  user            User?       @relation(fields: [userId], references: [id])
+  email           String
+  status          String      @default("pending")
+  stripePaymentId String?
+  items           OrderItem[]
+  subtotal        Float
+  shipping        Float
+  total           Float
+  shippingAddress Json
+  shippingMethod  String
+  promoCode       String?
+  discount        Float       @default(0)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Float
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int
+  title     String
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  zip       String
+  country   String  @default("US")
+  isDefault Boolean @default(false)
+}
+
+model PromoCode {
+  id            String    @id @default(cuid())
+  code          String    @unique
+  discountType  String
+  discountValue Float
+  maxUses       Int?
+  uses          Int       @default(0)
+  expiresAt     DateTime?
+  active        Boolean   @default(true)
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String
+  category  String
+  readTime  Int
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
