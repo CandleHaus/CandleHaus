@@ -5,27 +5,29 @@ import { PageShell } from "@/components/layout/PageShell";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { products, reviews, scentFamilies } from "@/lib/catalog";
+import { reviews, scentFamilies } from "@/lib/catalog";
+import { getStoreProducts } from "@/lib/products";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getStoreProducts();
   const featured = products.filter((product) => product.featured).slice(0, 4);
 
   return (
     <PageShell>
       <section className="relative flex min-h-[calc(100vh-5rem)] items-end overflow-hidden px-4 pb-12 sm:px-6 lg:px-8">
         <Image
-          src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=2200&q=85"
-          alt="Luxury candle in a dark moody room"
+          src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=2200&q=85"
+          alt="A calm luxury candle arrangement in warm neutral tones"
           fill
           priority
-          className="-z-10 object-cover opacity-55"
+          className="-z-10 object-cover opacity-35"
         />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/55 to-bg/20" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/70 to-bg/35" />
         <div className="mx-auto w-full max-w-7xl">
-          <p className="mb-5 text-xs uppercase tracking-[0.35em] text-amber">Small batch / Large format</p>
-          <h1 className="max-w-5xl font-display fluid-display font-light">Light Changes Everything.</h1>
-          <p className="mt-6 max-w-2xl fluid-subhead text-cream/85">
-            Premium candles poured for deep rooms, slow evenings, and fragrance that lingers like a remembered song.
+          <p className="mb-2 text-xs uppercase tracking-[0.26em] text-amber">Welcoming luxury / hand poured candles</p>
+          <h1 className="max-w-5xl font-display fluid-display font-light">A Softer Way to Come Home.</h1>
+          <p className="mt-5 max-w-2xl fluid-subhead text-muted">
+            Ember &amp; Vale creates calm, beautiful candles for warm rooms, quiet rituals, and homes that feel thoughtfully lived in.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href="/shop" variant="solid">
@@ -46,8 +48,8 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Bestsellers"
-          title="Candles with a devoted following."
-          copy="Each vessel is poured slowly, cured patiently, and built for a clean, atmospheric burn."
+          title="Candles with a warm sense of place."
+          copy="Each Ember & Vale candle is selected for calm rooms, earthy notes, and an elevated everyday ritual."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {featured.map((product) => (
@@ -62,9 +64,9 @@ export default function HomePage() {
             <p className="mb-4 text-xs uppercase tracking-[0.3em] text-amber">Our Ethos</p>
             <h2 className="font-display fluid-heading font-light">Poured for rooms with memory.</h2>
             <p className="mt-6 max-w-xl leading-8 text-muted">
-              GlowDrop began with the belief that fragrance should feel architectural. We blend waxes for steady heat,
+              Ember &amp; Vale began with the belief that fragrance should feel architectural. We blend waxes for steady heat,
               build fragrances in layered notes, and pour each candle in small batches so every vessel feels deliberate.
-              The result is warm luxury with a darker edge: elegant, sensory, and quietly dramatic.
+              The result is welcoming luxury with a calm, polished presence: elegant, sensory, and easy to live with.
             </p>
           </div>
           <Image
@@ -86,7 +88,7 @@ export default function HomePage() {
                 key={family.key}
                 href={`/shop?scentFamily=${family.key}`}
                 className="min-w-[230px] border border-border bg-surface p-6 transition hover:border-amber hover:shadow-glow"
-                style={{ background: `linear-gradient(160deg, ${family.accent}33, #1A1410 54%)` }}
+                style={{ background: `linear-gradient(160deg, ${family.accent}24, #fff8ed 58%)` }}
               >
                 <Sparkles className="mb-10 h-6 w-6 text-amber" />
                 <p className="font-display text-4xl">{family.label}</p>
@@ -107,7 +109,7 @@ export default function HomePage() {
                 ))}
               </div>
               <p className="font-display text-2xl leading-8">
-                &quot;{review.quote}&quot;
+                "{review.quote}"
               </p>
               <cite className="mt-5 block text-xs not-italic uppercase tracking-[0.22em] text-muted">
                 {review.name}
