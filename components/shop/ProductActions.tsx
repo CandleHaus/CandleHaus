@@ -3,10 +3,16 @@
 import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
+import { PrintifyCheckoutButton } from "@/components/shop/PrintifyCheckoutButton";
 import { useCartStore } from "@/store/cart";
 import type { Product } from "@/types";
 
-export function ProductActions({ product, compact = false }: { product: Product; compact?: boolean }) {
+type ProductActionsProduct = Product & {
+  printifyProductId?: string;
+  printifyVariantId?: number;
+};
+
+export function ProductActions({ product, compact = false }: { product: ProductActionsProduct; compact?: boolean }) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
@@ -24,6 +30,14 @@ export function ProductActions({ product, compact = false }: { product: Product;
       <Button className="w-full" variant="solid" onClick={() => addItem(product, quantity)}>
         <span className="inline-flex items-center gap-2"><ShoppingBag className="h-4 w-4" /> Add to Cart</span>
       </Button>
+      {product.printifyProductId ? (
+        <PrintifyCheckoutButton
+          className="w-full"
+          productId={product.printifyProductId}
+          variantId={product.printifyVariantId}
+          quantity={quantity}
+        />
+      ) : null}
     </div>
   );
 }
