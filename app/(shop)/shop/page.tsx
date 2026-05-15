@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { FilterSidebar } from "@/components/shop/FilterSidebar";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { PageShell } from "@/components/layout/PageShell";
-import { products } from "@/lib/catalog";
+import { getStoreProducts } from "@/lib/products";
 
 type ShopPageProps = {
   searchParams: {
@@ -13,7 +13,8 @@ type ShopPageProps = {
   };
 };
 
-export default function ShopPage({ searchParams }: ShopPageProps) {
+export default async function ShopPage({ searchParams }: ShopPageProps) {
+  const products = await getStoreProducts();
   let filtered = products.filter((product) => product.stock > 0);
 
   if (searchParams.scentFamily) filtered = filtered.filter((product) => product.scentFamily === searchParams.scentFamily);

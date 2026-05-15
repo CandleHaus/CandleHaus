@@ -12,8 +12,8 @@ export function Button({ href, children, className, variant = "primary", ...prop
   const classes = cn(
     "group relative inline-flex min-h-11 items-center justify-center overflow-hidden border px-5 py-3 text-sm font-medium uppercase tracking-[0.16em] transition duration-300 disabled:cursor-not-allowed disabled:opacity-50",
     variant === "primary" &&
-      "border-amber text-cream before:absolute before:inset-y-0 before:left-0 before:w-0 before:bg-amber before:transition-all before:duration-300 hover:text-bg hover:before:w-full",
-    variant === "solid" && "border-amber bg-amber text-bg hover:bg-amber-light",
+      "border-amber text-cream before:absolute before:inset-y-0 before:left-0 before:w-0 before:bg-amber before:transition-all before:duration-300 hover:text-cream hover:before:w-full",
+    variant === "solid" && "border-amber bg-amber text-cream hover:bg-amber-light",
     variant === "ghost" && "border-border text-muted hover:border-amber hover:text-cream",
     className
   );

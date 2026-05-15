@@ -4,11 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { PrintifyCheckoutButton } from "@/components/shop/PrintifyCheckoutButton";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/store/cart";
 import type { Product } from "@/types";
 
-export function ProductCard({ product }: { product: Product }) {
+type ProductCardProduct = Product & {
+  printifyProductId?: string;
+  printifyVariantId?: number;
+};
+
+export function ProductCard({ product }: { product: ProductCardProduct }) {
   const addItem = useCartStore((state) => state.addItem);
 
   return (
@@ -35,15 +41,24 @@ export function ProductCard({ product }: { product: Product }) {
           <p className="font-medium text-amber">{formatPrice(product.price)}</p>
         </div>
         <p className="line-clamp-2 min-h-12 text-sm leading-6 text-muted">{product.description}</p>
-        <div className="mt-5 flex items-center justify-between gap-3">
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
           <span className="text-xs uppercase tracking-[0.18em] text-muted">
             {product.weightOz} oz / {product.burnTime}+ hrs
           </span>
-          <Button className="px-3 py-2" onClick={() => addItem(product)}>
-            <span className="inline-flex items-center gap-2">
-              <ShoppingBag className="h-4 w-4" /> Add
-            </span>
-          </Button>
+          <div className="flex gap-2">
+            <Button className="px-3 py-2" onClick={() => addItem(product)}>
+              <span className="inline-flex items-center gap-2">
+                <ShoppingBag className="h-4 w-4" /> Add
+              </span>
+            </Button>
+            {product.printifyProductId ? (
+              <PrintifyCheckoutButton
+                className="px-3 py-2"
+                productId={product.printifyProductId}
+                variantId={product.printifyVariantId}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </article>

@@ -18,8 +18,21 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "GlowDrop | Premium Large Candles",
-  description: "Warm luxury candles poured in small batches for deep, atmospheric rooms."
+  title: "Ember & Vale | Calm Luxury Candles",
+  description: "Welcoming luxury candles in warm creams, deep greens, and grounded earthy tones.",
+  metadataBase: new URL("https://embervalecandles.com"),
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg"
+  },
+  openGraph: {
+    title: "Ember & Vale | Calm Luxury Candles",
+    description: "Warm, earthy candles for calm and welcoming homes.",
+    url: "https://embervalecandles.com",
+    siteName: "Ember & Vale",
+    type: "website"
+  }
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

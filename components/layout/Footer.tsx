@@ -7,10 +7,10 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">
         <div>
           <Link href="/" className="font-display text-4xl font-light">
-            GlowDrop
+            Ember &amp; Vale
           </Link>
           <p className="mt-4 max-w-sm text-sm leading-6 text-muted">
-            Large-format candles poured in small batches for rooms that deserve a little theatre.
+            Calm, luxurious candles poured for welcoming rooms and everyday rituals.
           </p>
         </div>
         <div>
@@ -38,7 +38,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border px-4 py-6 text-center text-xs uppercase tracking-[0.2em] text-muted">
-        (c) {new Date().getFullYear()} GlowDrop. Privacy / Terms
+        (c) {new Date().getFullYear()} Ember &amp; Vale. Privacy / Terms
       </div>
     </footer>
   );

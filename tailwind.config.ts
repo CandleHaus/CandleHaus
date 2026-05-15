@@ -16,17 +16,18 @@ const config: Config = {
         "amber-light": "var(--color-amber-light)",
         cream: "var(--color-cream)",
         muted: "var(--color-muted)",
-        success: "var(--color-success)"
+        success: "var(--color-success)",
+        forest: "var(--color-forest)"
       },
       fontFamily: {
         display: ["var(--font-display)"],
         body: ["var(--font-body)"]
       },
       boxShadow: {
-        glow: "0 0 40px rgba(200, 131, 42, 0.22)"
+        glow: "0 18px 48px rgba(49, 43, 38, 0.12)"
       },
       backgroundImage: {
-        "amber-radial": "radial-gradient(circle at 50% 0%, rgba(232, 168, 74, 0.18), transparent 42%)"
+        "amber-radial": "radial-gradient(circle at 50% 0%, rgba(215, 169, 93, 0.24), transparent 42%)"
       }
     }
   },

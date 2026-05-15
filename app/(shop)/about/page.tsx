@@ -13,8 +13,9 @@ export default function AboutPage() {
       <p className="mb-4 text-xs uppercase tracking-[0.3em] text-amber">About</p>
       <h1 className="max-w-4xl font-display fluid-heading font-light">Warm luxury with a darker heart.</h1>
       <p className="mt-8 max-w-3xl text-lg leading-8 text-muted">
-        GlowDrop makes large candles for rooms that carry mood: dinner tables, quiet bedrooms, book-lined corners, and
-        evenings that ask for lower light. Our fragrances are layered, our vessels are substantial, and our approach is slow by design.
+        Ember &amp; Vale makes large candles for rooms that feel lived-in, considered, and calm: dinner tables, quiet bedrooms,
+        book-lined corners, and evenings that ask you to slow down. Our fragrances are layered, our vessels are substantial,
+        and our approach is warm by design.
       </p>
       <div className="mt-16 grid gap-5 md:grid-cols-4">
         {values.map(([title, Icon, copy]) => (

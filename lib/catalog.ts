@@ -202,7 +202,7 @@ export const reviews = [
   },
   {
     name: "Ari T.",
-    quote: "Finally, a floral candle that feels moody instead of powdery.",
+    quote: "Finally, a floral candle that feels soft, elevated, and never powdery.",
     rating: 5
   }
 ];

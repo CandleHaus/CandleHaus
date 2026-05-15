@@ -24,7 +24,7 @@ export function Header() {
           <Menu className="h-6 w-6 text-cream" />
         </button>
         <Link href="/" className="font-display text-3xl font-light text-cream">
-          GlowDrop
+          Ember &amp; Vale
         </Link>
         <nav className="hidden items-center gap-8 lg:flex">
           {nav.map((item) => (
@@ -47,7 +47,7 @@ export function Header() {
           <button aria-label="Open cart" className="relative text-muted transition hover:text-amber" onClick={openCart}>
             <ShoppingBag className="h-5 w-5" />
             {count ? (
-              <span className="absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full bg-amber text-[10px] font-bold text-bg">
+              <span className="absolute -right-2 -top-2 grid h-5 w-5 place-items-center rounded-full bg-amber text-[10px] font-bold text-cream">
                 {count}
               </span>
             ) : null}
@@ -58,7 +58,7 @@ export function Header() {
         <div className="fixed inset-0 z-[80] bg-bg/95 lg:hidden">
           <div className="flex h-20 items-center justify-between border-b border-border px-4">
             <Link href="/" className="font-display text-3xl font-light" onClick={() => setOpen(false)}>
-              GlowDrop
+              Ember &amp; Vale
             </Link>
             <button aria-label="Close menu" onClick={() => setOpen(false)}>
               <X className="h-6 w-6" />

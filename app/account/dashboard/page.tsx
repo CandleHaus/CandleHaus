@@ -9,7 +9,7 @@ export default function DashboardPage() {
         {["Order history", "Profile settings", "Wishlist"].map((title) => (
           <div key={title} className="border border-border bg-surface/50 p-6">
             <h2 className="font-display text-3xl">{title}</h2>
-            <p className="mt-3 text-sm text-muted">Manage the pieces of your GlowDrop account.</p>
+            <p className="mt-3 text-sm text-muted">Manage your Ember &amp; Vale orders, profile, and saved candles.</p>
           </div>
         ))}
       </div>

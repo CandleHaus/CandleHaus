@@ -38,11 +38,11 @@ async function main() {
   });
 
   await prisma.user.upsert({
-    where: { email: "admin@glowdrop.com" },
+    where: { email: "admin@embervalecandles.com" },
     update: { role: "ADMIN" },
     create: {
-      email: "admin@glowdrop.com",
-      name: "GlowDrop Admin",
+      email: "admin@embervalecandles.com",
+      name: "Ember & Vale Admin",
       role: "ADMIN",
       passwordHash: await bcrypt.hash("changeme123", 12)
     }

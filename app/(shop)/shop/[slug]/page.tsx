@@ -5,19 +5,26 @@ import { ProductActions } from "@/components/shop/ProductActions";
 import { ProductCard } from "@/components/shop/ProductCard";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/Button";
-import { findProduct, products, relatedProducts } from "@/lib/catalog";
+import { products as fallbackProducts, relatedProducts } from "@/lib/catalog";
+import { getStoreProductBySlug, getStoreProducts } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
 
 export const revalidate = 60;
 
 export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+  return fallbackProducts.map((product) => ({ slug: product.slug }));
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = findProduct(params.slug);
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await getStoreProductBySlug(params.slug);
   if (!product) notFound();
-  const related = relatedProducts(product);
+  const storeProducts = await getStoreProducts();
+  const related =
+    "printifyProductId" in product
+      ? storeProducts
+          .filter((item) => item.scentFamily === product.scentFamily && item.id !== product.id)
+          .slice(0, 3)
+      : relatedProducts(product);
 
   return (
     <PageShell>

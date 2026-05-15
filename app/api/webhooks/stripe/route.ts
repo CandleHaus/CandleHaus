@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { createPrintifyOrder } from "@/lib/printify";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -16,6 +17,32 @@ export async function POST(request: Request) {
       where: { stripePaymentId: intent.id },
       data: { status: "paid" }
     });
+  }
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object;
+    if (session.metadata?.source === "printify" && session.metadata.printifyItems) {
+      const shipping = session.shipping_details;
+      const address = shipping?.address;
+      if (address?.line1 && address.city && address.postal_code && address.country) {
+        const [firstName, ...rest] = (shipping?.name || "Ember Vale").split(" ");
+        await createPrintifyOrder({
+          externalId: session.id,
+          lineItems: JSON.parse(session.metadata.printifyItems),
+          shippingAddress: {
+            firstName,
+            lastName: rest.join(" ") || "Customer",
+            email: session.customer_details?.email || "",
+            phone: session.customer_details?.phone || "",
+            country: address.country,
+            region: address.state || "",
+            address1: address.line1,
+            address2: address.line2 || "",
+            city: address.city,
+            zip: address.postal_code
+          }
+        });
+      }
+    }
   }
   return NextResponse.json({ received: true });
 }

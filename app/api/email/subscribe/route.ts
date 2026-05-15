@@ -6,9 +6,9 @@ export async function POST(request: Request) {
   const email = String(form.get("email") ?? "");
   if (resend && email) {
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "orders@glowdrop.com",
+      from: process.env.RESEND_FROM_EMAIL ?? "orders@embervalecandles.com",
       to: email,
-      subject: "Welcome to GlowDrop",
+      subject: "Welcome to Ember & Vale",
       html: "<p>Use WELCOME10 for 10% off your first order.</p>"
     });
   }

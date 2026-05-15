@@ -28,9 +28,9 @@ export async function POST(request: Request) {
 
   if (resend) {
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL ?? "orders@glowdrop.com",
+      from: process.env.RESEND_FROM_EMAIL ?? "orders@embervalecandles.com",
       to: body.email,
-      subject: `GlowDrop order ${order.id}`,
+      subject: `Ember & Vale order ${order.id}`,
       html: `<p>Thank you for your order. Total: $${body.total}</p>`
     });
   }
