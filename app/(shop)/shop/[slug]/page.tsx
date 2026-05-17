@@ -70,7 +70,7 @@ try {
 />
 
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <p className="text-xs uppercase tracking-[0.3em] text-amber">{product.scentFamily}</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-amber">Ember & Vale / Hand Poured</p>
           <h1 className="mt-4 font-display fluid-heading font-light">{product.name}</h1>
           <p className="mt-4 font-display text-4xl text-amber">{formatPrice(product.price)}</p>
           <p className="mt-6 leading-8 text-muted">{product.description}</p>
