@@ -44,12 +44,14 @@ export const useCartStore = create<CartStore>()(
               ...state.items,
               {
                 productId: product.id,
-                slug: product.slug,
-                name: product.name,
-                scentFamily: product.scentFamily,
-                image: product.images[0],
-                price: product.price,
-                quantity: clampQuantity(quantity)
+slug: product.slug,
+name: product.name,
+scentFamily: product.scentFamily,
+image: (product as any).image ?? product.images?.[0],
+price: product.price,
+quantity: clampQuantity(quantity),
+printifyProductId: (product as any).printifyProductId,
+variantId: (product as any).variantId,
               }
             ]
           };
