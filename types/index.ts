@@ -31,6 +31,8 @@ export type CartItem = {
   image: string;
   price: number;
   quantity: number;
+  printifyProductId?: string;
+  variantId?: number;
 };
 
 export type Review = {
