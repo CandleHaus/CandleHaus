@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { Minus, Plus, ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
@@ -151,6 +151,36 @@ export function ProductActions({
           <ShoppingBag className="h-4 w-4" /> Add to Cart
         </span>
       </Button>
+    </div>
+  );
+}
+export function ProductImageGallery({
+  colorImages,
+  productName,
+}: {
+  colorImages: Record<string, string>;
+  productName: string;
+}) {
+  const [selectedImage, setSelectedImage] = useState(Object.values(colorImages)[0]);
+
+  return (
+    <div>
+      <div className="relative aspect-[4/5] w-full overflow-hidden">
+        <Image
+          src={selectedImage}
+          alt={productName}
+          fill
+          priority
+          className="object-cover transition-opacity duration-300"
+        />
+      </div>
+      <div className="mt-4 grid grid-cols-4 gap-3">
+        {Object.values(colorImages).map((src) => (
+          <button key={src} onClick={() => setSelectedImage(src)} className={`relative aspect-[4/5] overflow-hidden border-2 transition ${selectedImage === src ? "border-amber" : "border-transparent"}`}>
+            <Image src={src} alt={productName} fill className="object-cover" />
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
