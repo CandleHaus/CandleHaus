@@ -25,6 +25,33 @@ export default async function ProductPage({ params }: { params: { slug: string }
           .filter((item) => item.scentFamily === product.scentFamily && item.id !== product.id)
           .slice(0, 3)
       : relatedProducts(product);
+  let outOfStockColorIds = new Set<string>();
+try {
+  const shopRes = await fetch("https://api.printify.com/v1/shops.json", {
+    headers: { Authorization: `Bearer ${process.env.PRINTIFY_API_KEY}` },
+    next: { revalidate: 60 },
+  });
+  const shops = await shopRes.json();
+  const shopId = shops[0]?.id;
+  if (shopId && (product as any).printifyProductId) {
+    const prodRes = await fetch(
+      `https://api.printify.com/v1/shops/${shopId}/products/${(product as any).printifyProductId}.json`,
+      {
+        headers: { Authorization: `Bearer ${process.env.PRINTIFY_API_KEY}` },
+        next: { revalidate: 60 },
+      }
+    );
+    const raw = await prodRes.json();
+    const colorIds = ["7254", "7255", "7256", "7257", "7258", "7259", "7260"];
+    for (const colorId of colorIds) {
+      const variants = raw.variants?.filter((v: any) => v.options?.includes(Number(colorId)));
+      const allUnavailable = variants?.every((v: any) => !v.is_available);
+      if (allUnavailable) outOfStockColorIds.add(colorId);
+    }
+  }
+} catch (e) {
+  console.error("Failed to fetch variant availability", e);
+}
 
   return (
     <PageShell>
@@ -61,7 +88,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
               <p className="text-xs uppercase tracking-[0.2em] text-muted">Wax</p>
             </div>
           </div>
-          <ProductActions product={product} />
+          <ProductActions product={product} outOfStockColorIds={outOfStockColorIds} />
           <Button href="/account/login" variant="ghost" className="mt-3 w-full">
             <span className="inline-flex items-center gap-2"><Heart className="h-4 w-4" /> Add to Wishlist</span>
           </Button>
@@ -116,7 +143,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       </section>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg/90 p-3 backdrop-blur lg:hidden">
-        <ProductActions product={product} compact />
+        <ProductActions product={product} compact outOfStockColorIds={outOfStockColorIds} />
       </div>
     </PageShell>
   );
