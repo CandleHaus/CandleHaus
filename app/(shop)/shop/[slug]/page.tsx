@@ -29,28 +29,28 @@ export default async function ProductPage({ params }: { params: { slug: string }
   return (
     <PageShell>
       <section className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.12fr_.88fr] lg:px-8">
-        <div>
-          <Image
-            src={product.images[0]}
-            alt={product.name}
-            width={1400}
-            height={1600}
-            priority
-            className="aspect-[4/5] w-full object-cover"
-          />
-          <div className="mt-4 grid grid-cols-4 gap-3">
-            {product.images.slice(0, 4).map((image) => (
-              <Image
-                key={image}
-                src={image}
-                alt={`${product.name} detail`}
-                width={320}
-                height={380}
-                className="aspect-[4/5] object-cover"
-              />
-            ))}
-          </div>
-        </div>
+   <div>
+  <div className="mt-4 grid grid-cols-4 gap-3">
+    {Object.values({
+      "7254": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147809/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7256": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147808/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7255": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147804/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7260": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147810/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7257": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147807/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7258": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147806/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+      "7259": "https://images-api.printify.com/mockup/6a04e5d4963577f6d9076bd1/147805/124255/ember-vale-14oz-scented-soy-candle.jpg?camera_label=front",
+    }).map((src) => (
+      <Image
+        key={src}
+        src={src}
+        alt={product.name}
+        width={320}
+        height={380}
+        className="aspect-[4/5] object-cover"
+      />
+    ))}
+  </div>
+</div>
 
         <div className="lg:sticky lg:top-28 lg:self-start">
           <p className="text-xs uppercase tracking-[0.3em] text-amber">{product.scentFamily}</p>
