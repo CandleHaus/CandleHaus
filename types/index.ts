@@ -1,6 +1,6 @@
-export type ScentFamily = "beach rose" | "christmas warmth" | "ocean water" | "sea salt + orchid" | "unscented" | "white sage and lavender";
-export type CandleSize = "14oz";
-export type WaxType = "soy";
+export type ScentFamily = "woody" | "floral" | "fresh" | "spiced" | "gourmand";
+export type CandleSize = "small" | "medium" | "large";
+export type WaxType = "soy" | "coconut" | "beeswax" | "blend";
 export type Product = {
   id: string;
   name: string;
