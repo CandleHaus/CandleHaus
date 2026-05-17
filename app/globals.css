@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #efe3cf;
-  --color-surface: #fbf4e8;
-  --color-border: #d5c3a7;
+  --color-bg: #0e0e0e;
+  --color-surface: #1a1a1a;
+  --color-border: #2a2a2a;
   --color-amber: #ad7a2d;
   --color-amber-light: #d0a257;
-  --color-cream: #191713;
-  --color-muted: #5f6b58;
+  --color-cream: #f0e6d3;
+  --color-muted: #8a8a8a;
   --color-success: #2f5d46;
   --color-forest: #263b2f;
 }
@@ -26,11 +26,7 @@ html {
 body {
   min-height: 100vh;
   color: var(--color-cream);
-  background:
-    linear-gradient(rgba(243, 234, 219, 0.94), rgba(243, 234, 219, 0.94)),
-    radial-gradient(circle at 18% 8%, rgba(215, 169, 93, 0.2), transparent 30%),
-    radial-gradient(circle at 88% 22%, rgba(38, 59, 47, 0.12), transparent 26%),
-    var(--color-bg);
+  background: var(--color-bg);
   font-family: var(--font-body), sans-serif;
 }
 
