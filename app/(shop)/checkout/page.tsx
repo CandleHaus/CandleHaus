@@ -66,13 +66,36 @@ export default function CheckoutPage() {
           ) : null}
 
           {step === 3 ? (
-            <div className="grid gap-5">
-              <div className="rounded-none border border-border bg-bg p-5 text-muted">
-                Enter payment details securely to place your order.
-              </div>
-              <Button variant="solid">Pay {formatPrice(total)}</Button>
-            </div>
-          ) : null}
+  <div className="grid gap-5">
+    <div className="rounded-none border border-border bg-bg p-5 text-muted">
+      You'll be redirected to Stripe to complete your purchase securely.
+    </div>
+    <Button
+      variant="solid"
+      onClick={async () => {
+        const res = await fetch("/api/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            items: items.map((item) => ({
+              productId: item.printifyProductId ?? item.id,
+              variantId: item.variantId,
+              quantity: item.quantity,
+            })),
+          }),
+        });
+        const data = await res.json();
+        if (data.checkoutUrl) {
+          window.location.href = data.checkoutUrl;
+        } else {
+          alert("Something went wrong. Please try again.");
+        }
+      }}
+    >
+      Pay {formatPrice(total)}
+    </Button>
+  </div>
+) : null}
         </div>
 
         <aside className="h-fit border border-border bg-surface/60 p-5">
