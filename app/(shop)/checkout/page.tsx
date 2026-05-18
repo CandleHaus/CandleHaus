@@ -73,7 +73,7 @@ export default function CheckoutPage() {
     <Button
       variant="solid"
       onClick={async () => {
-        const res = await fetch("/api/checkout", {
+        const res = await fetch("/api/printify/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
