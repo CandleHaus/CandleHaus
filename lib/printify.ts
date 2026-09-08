@@ -122,6 +122,11 @@ export function normalizePrintifyProduct(product: PrintifyProduct): StoreProduct
   };
 }
 
+export type PrintifyOrderResponse = {
+  id: string;
+  status?: string;
+};
+
 export async function createPrintifyOrder(input: {
   externalId: string;
   label?: string;
@@ -141,7 +146,7 @@ export async function createPrintifyOrder(input: {
 }) {
   const shopId = await getPrintifyShopId();
 
-  return printifyFetch(`/shops/${shopId}/orders.json`, {
+  return printifyFetch<PrintifyOrderResponse>(`/shops/${shopId}/orders.json`, {
     method: "POST",
     body: JSON.stringify({
       external_id: input.externalId,
