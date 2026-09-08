@@ -49,38 +49,44 @@ model Product {
   featured      Boolean        @default(false)
   active        Boolean        @default(true)
   createdAt     DateTime       @default(now())
-  orderItems    OrderItem[]
   reviews       Review[]
   wishlistItems WishlistItem[]
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  userId          String?
-  user            User?       @relation(fields: [userId], references: [id])
-  email           String
-  status          String      @default("pending")
-  stripePaymentId String?
-  items           OrderItem[]
-  subtotal        Float
-  shipping        Float
-  total           Float
-  shippingAddress Json
-  shippingMethod  String
-  promoCode       String?
-  discount        Float       @default(0)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
+  id                String      @id @default(cuid())
+  userId            String?
+  user              User?       @relation(fields: [userId], references: [id])
+  email             String
+  status            String      @default("pending")
+  fulfillmentStatus String      @default("unfulfilled")
+  stripeSessionId   String?     @unique
+  stripePaymentId   String?
+  printifyOrderId   String?
+  trackingNumber    String?
+  trackingUrl       String?
+  items             OrderItem[]
+  subtotal          Float
+  shipping          Float
+  total             Float
+  shippingAddress   Json
+  shippingMethod    String
+  promoCode         String?
+  discount          Float       @default(0)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
 }
 
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
-  price     Float
+  id                String  @id @default(cuid())
+  orderId           String
+  order             Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  printifyProductId String
+  printifyVariantId Int?
+  name              String
+  image             String?
+  quantity          Int
+  price             Float
 }
 
 model Review {
