@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getPrintifyProductById } from "@/lib/printify";
 import { stripe } from "@/lib/stripe";
+import { EXPRESS_SHIPPING_CENTS, standardShippingCents } from "@/lib/shipping";
 
 const checkoutSchema = z.object({
   items: z
@@ -41,6 +42,11 @@ export async function POST(request: Request) {
       })
     );
 
+    const subtotalCents = resolvedItems.reduce(
+      (sum, item) => sum + Math.round(item.product.price * 100) * item.quantity,
+      0
+    );
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
@@ -51,6 +57,30 @@ export async function POST(request: Request) {
       phone_number_collection: {
         enabled: true
       },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: standardShippingCents(subtotalCents), currency: "usd" },
+            display_name: "Standard Shipping",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 5 },
+              maximum: { unit: "business_day", value: 8 }
+            }
+          }
+        },
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: { amount: EXPRESS_SHIPPING_CENTS, currency: "usd" },
+            display_name: "Express Shipping",
+            delivery_estimate: {
+              minimum: { unit: "business_day", value: 2 },
+              maximum: { unit: "business_day", value: 3 }
+            }
+          }
+        }
+      ],
       success_url: `${origin}/order-confirmation/{CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/shop`,
       metadata: {
@@ -59,7 +89,10 @@ export async function POST(request: Request) {
           resolvedItems.map((item) => ({
             productId: item.product.printifyProductId,
             variantId: item.variantId,
-            quantity: item.quantity
+            quantity: item.quantity,
+            name: item.product.name,
+            image: item.product.images[0] ?? null,
+            priceCents: Math.round(item.product.price * 100)
           }))
         )
       },
